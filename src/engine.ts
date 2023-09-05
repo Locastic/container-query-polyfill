@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
- import {
+import {
   evaluateContainerCondition,
   ContainerType,
   TreeContext,
@@ -608,17 +608,16 @@ class LinkElementController extends NodeController<HTMLLinkElement> {
             const blob = new Blob([styleSheet.source], {type: 'text/css'});
 
             const newNode = node.cloneNode(true) as HTMLLinkElement;
-            newNode.setAttribute('id', 'cq-styles');
-            newNode.href = URL.createObjectURL(blob);
+            newNode.setAttribute('id', 'cq-styles-v1');
             document.head.appendChild(newNode);
 
             const loadFn = () => {
               styleSheet.refresh();
-              node.removeEventListener('load', loadFn);
-              node.remove();
+              newNode.removeEventListener('load', loadFn);
             };
 
-            node.addEventListener('load', loadFn);
+            newNode.addEventListener('load', loadFn);
+            newNode.href = URL.createObjectURL(blob);
           }
         });
       }
